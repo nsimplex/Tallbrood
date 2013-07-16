@@ -1,0 +1,61 @@
+Tallbrood adds a lifecycle to Tallbirds. Nestless Tallbirds create new nests and eggs inside them hatch into Smallbirds, which follow their parent until fully grown (at which point they will make their own nests).
+
+Tallbrood is free software, licensed under the terms of the GNU GPLv2. The code is hosted at [URL="https://github.com/nsimplex/tallbrood"]GitHub[/URL].
+
+[B]Description[/B]:
+[SPOILER]
+[LIST]
+[*] Tallbirds without a nest will make a new one after one week. Nests will only be made on rocky or dirt (turfless) ground.
+[*] A Tallbird will hatch the egg in its nest, which will grow into a Smallbird in 6 days. The hatched Smallbird will follow its parent throughout its growth into a Teenbird and finally into a Tallbird, which will then proceed to make its own nest.
+[/LIST]
+[/SPOILER]
+
+
+[B]Installation[/B]:
+[SPOILER]
+Unzip the Tallbrood folder into your mods directory. Then, enable it through the mod management interface found within the game's main menu.
+[/SPOILER]
+
+[B]Configuration[/B]:
+[SPOILER]
+Just edit the file rc.lua in the Tallbrood folder. Every option's effect is explained in the file. Knowledge of Lua is not required, as the file uses a simple "OPTION = VALUE" format.
+
+@SAMPLECONFIGURATION@
+[/SPOILER]
+
+[B]Known bugs[/B]:
+[SPOILER]
+None.
+[/SPOILER]
+
+[B]Disclaimer[/B]:
+[SPOILER]
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+[/SPOILER]
+
+[B]Changelog[/B]:
+[SPOILER]
+[U]Version 2.0[/U] (2013-07-15)
+[LIST]
+[*] Minor improvements in the mod logic.
+[*] Complete overhaul on how the mod interacts with the game, with the introduction of a custom API interface coupled with a module loading system.
+[/LIST]
+[U]Version 1.1[/U] (2013-07-09)
+[LIST]
+[*] Extended the semantics of predicates.lua to account for the entirety of first-order logic.
+[*] Polished the offscreen egg hatching logic.
+[/LIST]
+[U]Version 1.0[/U] (2013-07-08)
+[LIST]
+[*] Release.
+[/LIST]
+[/SPOILER]
+
