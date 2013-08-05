@@ -16,31 +16,30 @@ ICON_ATLAS:=$(ICON_DIR)/$(PROJECT_lc).xml
 
 SCRIPT_DIR:=scripts/$(PROJECT_lc)
 
+
+include $(SCRIPT_DIR)/wicker/files.mk
+
+
 THEMAIN:=$(SCRIPT_DIR)/main.lua
 GROUND_SCRIPTS:=modmain.lua modinfo.lua
 CONFIGURATION_SCRIPTS:=rc.lua $(SCRIPT_DIR)/rc/defaults.lua $(SCRIPT_DIR)/rc/schema.lua
-BASE_SCRIPTS:=$(foreach f, utils.lua, $(SCRIPT_DIR)/$(f))
-API_SCRIPTS:=$(foreach f, core.lua init.lua themod.lua, $(SCRIPT_DIR)/api/$(f))
-UTIL_SCRIPTS:=$(foreach f, algo.lua game.lua io.lua string.lua table.lua table/core.lua table/tree.lua table/tree/core.lua table/tree/dfs.lua time.lua, $(SCRIPT_DIR)/utils/$(f))
-PARADIGM_SCRIPTS:=$(foreach f, functional.lua logic.lua, $(SCRIPT_DIR)/paradigms/$(f))
-LIB_SCRIPTS:=$(foreach f, predicates.lua searchspace.lua, $(SCRIPT_DIR)/lib/$(f))
-GADGET_SCRIPTS:=$(foreach f, configurable.lua debuggable.lua eventchain.lua, $(SCRIPT_DIR)/gadgets/$(f))
-MISC_SCRIPTS:=$(foreach f, src/tallbird_logic.lua src/debugtools.lua, $(SCRIPT_DIR)/$(f))
+MISC_SCRIPTS:=$(foreach f, tallbird_logic.lua debugtools.lua, $(SCRIPT_DIR)/$(f))
 
 COMPONENT_LIST:=nester.lua
 PREFAB_LIST:=
 
-COMPONENT_SCRIPTS:=$(foreach f, $(COMPONENT_LIST), scripts/components/$(f)) $(foreach f, $(COMPONENT_LIST), $(SCRIPT_DIR)/components/$(f))
+COMPONENT_SCRIPTS:=$(foreach f, $(COMPONENT_LIST), $(SCRIPT_DIR)/components/$(f) scripts/components/$(f))
 
 PREFAB_LIST:=$(foreach f, $(PREFAB_LIST), scripts/prefabs/$(f)) $(foreach f, $(PREFAB_LIST), $(SCRIPT_DIR)/prefabs/$(f))
 
-FILES=$(THEMAIN) $(GROUND_SCRIPTS) $(CONFIGURATION_SCRIPTS) $(BASE_SCRIPTS) $(API_SCRIPTS) $(UTIL_SCRIPTS) $(PARADIGM_SCRIPTS) $(LIB_SCRIPTS) $(GADGET_SCRIPTS) $(MISC_SCRIPTS) $(COMPONENT_SCRIPTS) $(PREFAB_SCRIPTS)
+FILES=$(THEMAIN) $(GROUND_SCRIPTS) $(CONFIGURATION_SCRIPTS) $(COMPONENT_SCRIPTS) $(PREFAB_SCRIPTS)
 
 LICENSE_FILES:=AUTHORS.txt COPYING.txt
 IMAGE_FILES:=$(ICON) $(ICON_ATLAS)
 
 FILES+=$(LICENSE_FILES) $(IMAGE_FILES)
 
+FILES+=$(foreach f, $(WICKER_FILES), $(SCRIPT_DIR)/wicker/$(f))
 
 .PHONY: dist rc rc.lua count modmain.lua modinfo.lua $(THEMAIN) boot
 

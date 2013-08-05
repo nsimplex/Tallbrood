@@ -16,7 +16,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ]]--
 
 --@@ENVIRONMENT BOOTUP
-local modname = assert( (assert(..., 'This file should be loaded through require/modrequire/pkgrequire/wickerrequire.')):match('^[%a_][%w_%s]*') , 'Invalid path.')
+local modname = assert( (assert(..., 'This file should be loaded through require.')):match('^[%a_][%w_%s]*') , 'Invalid path.')
 module( ..., require(modname .. '.booter') )
 --@@END ENVIRONMENT BOOTUP
 

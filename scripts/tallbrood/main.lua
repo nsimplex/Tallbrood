@@ -1,7 +1,7 @@
 -----
 --[[ Tallbrood ]] VERSION="2.0"
 --
--- Last updated: 2013-07-16
+-- Last updated: 2013-08-05
 -----
 
 --[[
@@ -25,7 +25,7 @@ Don't Starve and is not covered under the terms of this license.
 ]]--
 
 --@@ENVIRONMENT BOOTUP
-local modname = assert( (assert(..., 'This file should be loaded through require/modrequire/pkgrequire/wickerrequire.')):match('^[%a_][%w_%s]*') , 'Invalid path.')
+local modname = assert( (assert(..., 'This file should be loaded through require.')):match('^[%a_][%w_%s]*') , 'Invalid path.')
 module( ..., require(modname .. '.booter') )
 --@@END ENVIRONMENT BOOTUP
 
