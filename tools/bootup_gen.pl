@@ -8,18 +8,16 @@ use File::Temp qw( :POSIX );
 use File::Copy qw/ cp mv /;
 
 my $essential_bootup_code = <<EOS
-local modname = assert( (assert(..., 'This file should be loaded through require/modrequire/pkgrequire.')):match('^[%a_][%w_%s]*') , 'Invalid path.')
+local modname = assert( (assert(..., 'This file should be loaded through require/modrequire/pkgrequire/wickerrequire.')):match('^[%a_][%w_%s]*') , 'Invalid path.')
 EOS
 ;
 
 my $bootup_code = $essential_bootup_code . <<EOS
-local require = require
-module(...)
-require(modname .. '.api.core')()
+module( ..., require(modname .. '.booter') )
 EOS
 ;
 
-my $block_size = 1024;
+my $block_size = 8*1024;
 
 $ARGV[0] or die $!;
 

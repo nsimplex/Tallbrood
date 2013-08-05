@@ -25,27 +25,25 @@ Don't Starve and is not covered under the terms of this license.
 ]]--
 
 --@@ENVIRONMENT BOOTUP
-local modname = assert( (assert(..., 'This file should be loaded through require/modrequire/pkgrequire.')):match('^[%a_][%w_%s]*') , 'Invalid path.')
-local require = require
-module(...)
-require(modname .. '.api.core')()
+local modname = assert( (assert(..., 'This file should be loaded through require/modrequire/pkgrequire/wickerrequire.')):match('^[%a_][%w_%s]*') , 'Invalid path.')
+module( ..., require(modname .. '.booter') )
 --@@END ENVIRONMENT BOOTUP
 
 -- This just enables syntax conveniences.
 BindTheMod()
 
 
-local Lambda = modrequire 'paradigms.functional'
-local Logic = modrequire 'paradigms.logic'
+local Lambda = wickerrequire 'paradigms.functional'
+local Logic = wickerrequire 'paradigms.logic'
 
-local Pred = modrequire 'lib.predicates'
+local Pred = wickerrequire 'lib.predicates'
 
-local myutils = modrequire 'utils'
+local myutils = wickerrequire 'utils'
 
-local EventChain = modrequire 'gadgets.eventchain'
+local EventChain = wickerrequire 'gadgets.eventchain'
 
 
-local TallbirdLogic = modrequire 'src.tallbird_logic'
+local TallbirdLogic = modrequire 'tallbird_logic'
 
 
 local function ApplyWildBirdLogic( bird )
@@ -234,7 +232,7 @@ return function(...)
 	assert( (...) == "Hello, world!\n" )
 
 	if Debug() then
-		modrequire 'src.debugtools'
+		modrequire 'debugtools'
 		AddSimPostInit(function(inst)
 			inst:AddTag("tallbird")
 		end)

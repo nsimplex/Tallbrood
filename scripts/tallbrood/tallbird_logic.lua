@@ -24,20 +24,18 @@ local GetGroundTypeAtPosition = GetGroundTypeAtPosition
 
 
 --@@ENVIRONMENT BOOTUP
-local modname = assert( (assert(..., 'This file should be loaded through require/modrequire/pkgrequire.')):match('^[%a_][%w_%s]*') , 'Invalid path.')
-local require = require
-module(...)
-require(modname .. '.api.core')()
+local modname = assert( (assert(..., 'This file should be loaded through require/modrequire/pkgrequire/wickerrequire.')):match('^[%a_][%w_%s]*') , 'Invalid path.')
+module( ..., require(modname .. '.booter') )
 --@@END ENVIRONMENT BOOTUP
 
 
-local Lambda = modrequire 'paradigms.functional'
-local Logic = modrequire 'paradigms.logic'
+local Lambda = wickerrequire 'paradigms.functional'
+local Logic = wickerrequire 'paradigms.logic'
 
-local Pred = modrequire 'lib.predicates'
-local SearchSpace = modrequire 'lib.searchspace'
+local Pred = wickerrequire 'lib.predicates'
+local SearchSpace = wickerrequire 'lib.searchspace'
 
-local myutils = modrequire 'utils'
+local myutils = wickerrequire 'utils'
 
 
 function CanSpawnTallbirdNestAtPoint(pt)

@@ -16,13 +16,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ]]--
 
 --@@ENVIRONMENT BOOTUP
-local modname = assert( (assert(..., 'This file should be loaded through require/modrequire/pkgrequire.')):match('^[%a_][%w_%s]*') , 'Invalid path.')
-local require = require
-module(...)
-require(modname .. '.api.core')()
+local modname = assert( (assert(..., 'This file should be loaded through require/modrequire/pkgrequire/wickerrequire.')):match('^[%a_][%w_%s]*') , 'Invalid path.')
+module( ..., require(modname .. '.booter') )
 --@@END ENVIRONMENT BOOTUP
 
-local Pred = modrequire 'lib.predicates'
+local Pred = wickerrequire 'lib.predicates'
 
 
 WILD_SMALLBIRD_HATCH_TIME = Pred.IsPositiveNumber

@@ -24,4 +24,4 @@ The file tallbrood.tex is based on textures from Klei Entertainment's
 Don't Starve and is not covered under the terms of this license.
 ]]--
 
-TheMod = GLOBAL.require(modname:lower() .. '.api.init')(env):Run("Hello, world!\n")
+TheMod = GLOBAL.require(modinfo.name:lower() .. '.wicker.init')(env):Run()

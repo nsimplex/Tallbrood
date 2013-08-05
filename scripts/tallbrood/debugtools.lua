@@ -16,14 +16,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ]]--
 
 --@@ENVIRONMENT BOOTUP
-local modname = assert( (assert(..., 'This file should be loaded through require/modrequire/pkgrequire.')):match('^[%a_][%w_%s]*') , 'Invalid path.')
-local require = require
-module(...)
-require(modname .. '.api.core')()
+local modname = assert( (assert(..., 'This file should be loaded through require/modrequire/pkgrequire/wickerrequire.')):match('^[%a_][%w_%s]*') , 'Invalid path.')
+module( ..., require(modname .. '.booter') )
 --@@END ENVIRONMENT BOOTUP
 
 
-local SearchSpace = modrequire 'lib.searchspace'
+local SearchSpace = wickerrequire 'lib.searchspace'
 
 GLOBAL.tallbrood = GLOBAL.tallbrood or {}
 local tallbrood = GLOBAL.tallbrood
