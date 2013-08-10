@@ -7,6 +7,7 @@ Tallbrood is free software, licensed under the terms of the GNU GPLv2. The code 
 [LIST]
 [*] Tallbirds without a nest will make a new one after one week. Nests will only be made on rocky or dirt (turfless) ground.
 [*] A Tallbird will hatch the egg in its nest, which will grow into a Smallbird in 6 days. The hatched Smallbird will follow its parent throughout its growth into a Teenbird and finally into a Tallbird, which will then proceed to make its own nest.
+[*] While raising a Smallbird, a Tallbird won't lay eggs.
 [/LIST]
 [/SPOILER]
 
@@ -43,6 +44,12 @@ GNU General Public License for more details.
 
 [B]Changelog[/B]:
 [SPOILER]
+[U]Version 2.1[/U] (2013-08-10)
+[LIST]
+[*] Tallbirds (by default) won't lay eggs while raising a Smallbird.
+[*] Fixed the bug that made eggs hatch more often than they should.
+[*] Smallbirds and Teenbirds now go through their hatching and growing phases smoothly while offscreen (thanks to the AddStategraphPostInit mod API function added in Hunger!).
+[/LIST]
 [U]Version 2.0[/U] (2013-07-15)
 [LIST]
 [*] Minor improvements in the mod logic.

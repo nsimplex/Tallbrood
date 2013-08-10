@@ -24,7 +24,7 @@ local GetGroundTypeAtPosition = GetGroundTypeAtPosition
 
 
 --@@ENVIRONMENT BOOTUP
-local modname = assert( (assert(..., 'This file should be loaded through require.')):match('^[%a_][%w_%s]*') , 'Invalid path.')
+local modname = assert( (assert(..., 'This file should be loaded through require.')):match('^[%a_][%w_%s]*') , 'Invalid path.' )
 module( ..., require(modname .. '.booter') )
 --@@END ENVIRONMENT BOOTUP
 
@@ -140,13 +140,15 @@ function AttachBirdToNest(bird, nest)
 		for _,v in pairs(nest.components.childspawner.childrenoutside) do
 			if v.components.leader then
 				bird.components.follower:SetLeader(v)
-				return bird, v
+				break
 			end
 		end
-
-		return bird, nil
 	else
 		assert( bird.components.follower.leader.components.homeseeker and bird.components.follower.leader.components.homeseeker.home == nest )
+	end
+
+	if nest.components.tallhatchery then
+		nest.components.tallhatchery:TryStart()
 	end
 
 	return bird, bird.components.follower.leader
@@ -186,8 +188,11 @@ function HatchWildEggFromNest(inst)
 		smallbird.sg:GoToState("hatch")
 
 		myutils.game.ListenForEventOnce(smallbird, "animover", function(smallbird)
-			TheMod:DebugNotify('[', smallbird, '] hatched. Attaching to [', inst, ']')
-			AttachBirdToNest(smallbird, inst)
+			-- This is just to ensure this runs after the GoToState("idle") on onexit().
+			smallbird:DoTaskInTime(0, function(smallbird)
+				TheMod:DebugNotify('[', smallbird, '] hatched. Attaching to [', inst, ']')
+				AttachBirdToNest(smallbird, inst)
+			end)
 		end)
 
 		inst.components.pickable:Pick()

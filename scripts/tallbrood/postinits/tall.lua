@@ -1,9 +1,3 @@
------
---[[ Tallbrood ]] VERSION="2.1"
---
--- Last updated: 2013-08-10
------
-
 --[[
 Copyright (C) 2013  simplex
 
@@ -22,9 +16,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 The file favicon/tallbrood.tex is based on textures from Klei Entertainment's
 Don't Starve and is not covered under the terms of this license.
-
-The file scripts/tallbrood/prefabs/tallbirdnest.lua is based on code from Klei
-Entertainment's Don't Starve and is not covered under the terms of this license.
 ]]--
 
 --@@ENVIRONMENT BOOTUP
@@ -41,34 +32,33 @@ local Logic = wickerrequire 'paradigms.logic'
 
 local Pred = wickerrequire 'lib.predicates'
 
+local TallbirdLogic = modrequire 'tallbird_logic'
 
-modrequire 'postinits.smallish'
-modrequire 'postinits.tall'
-modrequire 'postinits.nest'
+local EventChain = wickerrequire 'gadgets.eventchain'
 
 
-local function inst_tagger(inst)
-	inst:AddTag(GetModname() .. '_' .. tostring(inst.prefab))
-	return inst
+function tallbird_postinit(inst)
+	DebugSay('Initializing [', inst, ']')
+
+	inst:AddComponent("leader")
+
+	inst:AddComponent("nester")
+
+	inst.components.nester:SetNestPrefab("tallbirdnest")
+	inst.components.nester:SetFullDelay( GetConfig().TALLBIRD_NESTING_DELAY )
+
+	-- Defines the chain of events that must happen if the entity is awake so that a nest will be spawned.
+	inst.components.nester:SetEntityAwakeEventChain( EventChain('gotosleep', 'animover') )
+
+	inst.components.nester:SetSearchRadius( GetConfig().TALLBIRD_MAX_NEST_DISTANCE )
+
+	inst.components.nester:SetNestingTestFn(TallbirdLogic.CanSpawnTallbirdNestAtPoint)
+
+	inst.components.nester:SetOnSpawnNestFn(function(inst, nest)
+		if nest.components.pickable then
+			nest.components.pickable:Pick()
+		end
+	end)
 end
 
-AddPrefabPostInit({'smallbird', 'teenbird', 'tallbird', 'tallbirdnest'}, inst_tagger)
-
-
-local function greeter(inst)
-	print('Thank you, ' .. (STRINGS.NAMES[inst.prefab:upper()] or "player") .. ', for using ' .. Modname .. ' mod v' .. modinfo.version .. '.')
-	print(Modname .. ' is free software, licensed under the terms of the GNU GPLv2.')
-end
-
-TheMod:AddSimPostInit(greeter)
-
-return function(...)
-	assert( TheMod )
-
-	if Debug() then
-		modrequire 'debugtools'
-		AddSimPostInit(function(inst)
-			inst:AddTag("tallbird")
-		end)
-	end
-end
+TheMod:AddPostInit('prefab')('tallbird')(tallbird_postinit)

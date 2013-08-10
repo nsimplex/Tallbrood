@@ -1,6 +1,6 @@
 PROJECT:=Tallbrood
 AUTHOR:=simplex
-VERSION:=2.0
+VERSION:=2.1
 API_VERSION:=2
 DESCRIPTION:=A life cycle for Tallbirds.
 FORUM_THREAD:=23974
@@ -24,7 +24,10 @@ FILES+=$(GROUND_SCRIPTS)
 MISC_SCRIPTS:=$(foreach f, tallbird_logic.lua debugtools.lua, $(SCRIPT_DIR)/$(f))
 FILES+=$(MISC_SCRIPTS)
 
-PREFAB_SCRIPTS:=
+POSTINIT_SCRIPTS:=$(foreach f, smallish.lua tall.lua nest.lua, $(SCRIPT_DIR)/postinits/$(f))
+FILES+=$(POSTINIT_SCRIPTS)
+
+PREFAB_SCRIPTS:=$(call WICKER_ADD_PREFABS, tallbirdnest.lua)
 COMPONENT_SCRIPTS:=$(call WICKER_ADD_COMPONENTS, nester.lua)
 FILES+=$(PREFAB_SCRIPTS) $(COMPONENT_SCRIPTS)
 
