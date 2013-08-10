@@ -1,7 +1,7 @@
 -----
 --[[ Tallbrood ]] VERSION="2.0"
 --
--- Last updated: 2013-08-05
+-- Last updated: 2013-08-09
 -----
 
 --[[
@@ -111,12 +111,16 @@ local function tallbirdnest_postinit(inst)
 					local hatched = false
 
 					if nest:IsValid() and not nest:IsInLimbo() and nest.components.childspawner and nest.components.childspawner:CountChildrenOutside() > 0 then
-						hatched = TallbirdLogic.HatchWildEggFromNest(nest)
+						if nest.components.pickable and nest.components.pickable:CanBePicked() then
+							hatched = TallbirdLogic.HatchWildEggFromNest(nest)
+						end
 					end
 
 					nest.components.growable:SetStage(1)
 
-					if not hatched then
+					if hatched then
+						nest.components.growable:StopGrowing()
+					else
 						nest.components.growable:StartGrowing()
 					end
 				end,
@@ -129,7 +133,7 @@ local function tallbirdnest_postinit(inst)
 		local oldmakeemptyfn = pick.makeemptyfn
 
 		pick:SetOnRegenFn(function(inst, ...)
-			if inst.components.growable then
+			if inst.components.growable and not inst.components.growable.targettime then
 				inst.components.growable:SetStage(1)
 				inst.components.growable:StartGrowing()
 				DebugSay('[', inst, ']\'s egg started to grow.')
@@ -163,9 +167,13 @@ local function tallbirdnest_postinit(inst)
 
 		inst:DoTaskInTime(0, function(inst)
 			if inst.components.pickable and inst.components.growable then
+				local time = inst.components.growable.targettime
+				if time then
+					time = time - GetTime()
+				end
 				inst.components.growable:StopGrowing()
 				if inst.components.pickable:CanBePicked() then
-					inst.components.growable:StartGrowing()
+					inst.components.growable:StartGrowing(time)
 				end
 			end
 		end)
@@ -229,7 +237,6 @@ TheMod:AddSimPostInit(greeter)
 
 return function(...)
 	assert( TheMod )
-	assert( (...) == "Hello, world!\n" )
 
 	if Debug() then
 		modrequire 'debugtools'
