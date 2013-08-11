@@ -20,20 +20,7 @@ local TallHatchery = ConditionalTasker:Instantiate("TallHatchery")
 -- Some component defaults.
 
 do
-	local function ForceLay(inst)
-		local max_dist = TheMod:GetConfig("TALLBIRD_LAYING_MAX_DISTANCE")
-		local function close_enough(v)
-			return distsq(inst:GetPosition(), v:GetPosition()) <= max_dist*max_dist
-		end
-	
-		if inst.components.childspawner and inst.components.pickable then
-			if Logic.ThereExists(close_enough, pairs(inst.components.childspawner.childrenoutside)) then
-				inst.components.pickable:Regen()
-			end
-		end
-	end
-	
-	
+		
 	TallHatchery:SetFullDelay( TheMod:GetConfig("TALLBIRD_LAYING_DELAY") )
 
 	do
@@ -65,12 +52,28 @@ do
 		end)
 	end
 	
-	TallHatchery:SetOnCompleteFn(function(inst)
-		inst.readytolay = true
-		if inst:IsAsleep() then
-			ForceLay(inst)
+	do
+		local max_dist_sq = TheMod:GetConfig("TALLBIRD_LAYING_MAX_DISTANCE")^2
+
+		local function ForceLay(inst)
+			local function close_enough(v)
+				return distsq(inst:GetPosition(), v:GetPosition()) <= max_dist_sq
+			end
+	
+			if inst.components.childspawner and inst.components.pickable then
+				if Logic.ThereExists(close_enough, pairs(inst.components.childspawner.childrenoutside)) then
+					inst.components.pickable:Regen()
+				end
+			end
 		end
-	end)
+
+		TallHatchery:SetOnCompleteFn(function(inst)
+			inst.readytolay = true
+			if inst:IsAsleep() then
+				ForceLay(inst)
+			end
+		end)
+	end
 	
 	TallHatchery:SetOnTryStartFn(function(inst, success, hardfailure)
 		if not success and hardfailure then
@@ -149,10 +152,8 @@ local function OnSave(inst, data)
 end
 
 local function OnLoad(inst, data)
-	if data then
-		inst.readytolay = data.readytolay
-		TallHatchery.TryStarter(inst)
-	end
+	inst.readytolay = data.readytolay
+	TallHatchery.TryStarter(inst)
 end
 
 
