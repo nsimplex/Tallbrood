@@ -24,6 +24,9 @@ TALLBIRD_LAYING_DELAY = 35*TUNING.SEG_TIME
 -- Prevents a Tallbird from laying an egg if it's currently raising a Smallbird.
 TALLBIRD_DONT_LAY_IF_SMALL_CHILDREN = true
 
+-- Prevents a Tallbird from laying an egg if it's currently raising a Teenbird.
+TALLBIRD_DONT_LAY_IF_TEEN_CHILDREN = false
+
 -- Maximum distance between a Tallbird and its nest for an egg to be laid (only matters for offscreen laying).
 TALLBIRD_LAYING_MAX_DISTANCE = 16
 
@@ -42,7 +45,7 @@ TALLBIRD_MAX_NEST_DISTANCE = 16
 
 
 --[[
--- Here I list some default game configurations for ease of editing.
+-- Here are listed some default game configurations for ease of editing.
 --]]
 
 -- How long it takes for a Smallbird to grow into a Teenbird.
