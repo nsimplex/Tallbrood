@@ -8,57 +8,77 @@ local Logic = wickerrequire 'paradigms.logic'
 
 local Pred = wickerrequire 'lib.predicates'
 
+local table = wickerrequire 'utils.table'
+
 
 local ConditionalTasker = wickerrequire 'protocomponents.conditionaltasker'
+-- Instantiates a new component from the prototype.
 local TallHatchery = ConditionalTasker:Instantiate("TallHatchery")
 
 
+--------------------------------------------------------------------------------
+-- Some component defaults.
 
-local function ForceLay(inst)
-	local max_dist = TheMod:GetConfig("TALLBIRD_LAYING_MAX_DISTANCE")
-	local function close_enough(v)
-		return distsq(inst:GetPosition(), v:GetPosition()) < max_dist*max_dist
-	end
-
-	if inst.components.childspawner and inst.components.pickable then
-		if Logic.ThereExists(close_enough, pairs(inst.components.childspawner.childrenoutside)) then
-			inst.components.pickable:Regen()
+do
+	local function ForceLay(inst)
+		local max_dist = TheMod:GetConfig("TALLBIRD_LAYING_MAX_DISTANCE")
+		local function close_enough(v)
+			return distsq(inst:GetPosition(), v:GetPosition()) < max_dist*max_dist
 		end
-	end
-end
-
-
--- Some class defaults.
-
--- The second return value indicates a hard failure.
-TallHatchery:SetConditionFn(function(inst)
-	if inst.components.pickable and not inst.components.pickable:CanBePicked() then
-		if TheMod:GetConfig("TALLBIRD_DONT_LAY_IF_SMALL_CHILDREN") then
-			for k,v in pairs(inst.components.childspawner.childrenoutside) do
-				if v.components.leader and v.components.leader:IsBeingFollowedBy("smallbird") then
-					return false, true
-				end
+	
+		if inst.components.childspawner and inst.components.pickable then
+			if Logic.ThereExists(close_enough, pairs(inst.components.childspawner.childrenoutside)) then
+				inst.components.pickable:Regen()
 			end
 		end
-
-		return not inst.readytolay
-	else
-		return false, true
 	end
-end)
+	
+	
+	TallHatchery:SetFullDelay( TheMod:GetConfig("TALLBIRD_LAYING_DELAY") )
 
-TallHatchery:SetOnCompleteFn(function(inst)
-	inst.readytolay = true
-	if inst:IsAsleep() then
-		ForceLay(inst)
-	end
-end)
+	do
+		local troublesome_children_set = {}
+		if TheMod:GetConfig("TALLBIRD_DONT_LAY_IF_SMALL_CHILDREN") then
+			troublesome_children_set.smallbird = true
+		end
+		if TheMod:GetConfig("TALLBIRD_DONT_LAY_IF_TEEN_CHILDREN") then
+			troublesome_children_set.teenbird = true
+		end
+		local function troublesome_children(e)
+			return e:IsValid() and e.prefab and troublesome_children_set[e.prefab]
+		end
 
-TallHatchery:SetOnTryStartFn(function(inst, success, hardfailure)
-	if not success and hardfailure then
-		inst.readytolay = nil
+		-- The second return value indicates a hard failure.
+		TallHatchery:SetConditionFn(function(inst)
+			if inst.components.pickable and not inst.components.pickable:CanBePicked() then
+				local function busy_with_children(v)
+					return v:IsValid() and v.components.leader and Logic.ThereExists(troublesome_children, table.keys(v.components.leader.followers))
+				end
+		
+				if Logic.ThereExists(busy_with_children, pairs(inst.components.childspawner.childrenoutside)) then
+					return false, true
+				end
+		
+				return not inst.readytolay
+			else
+				return false, true
+			end
+		end)
 	end
-end)
+	
+	TallHatchery:SetOnCompleteFn(function(inst)
+		inst.readytolay = true
+		if inst:IsAsleep() then
+			ForceLay(inst)
+		end
+	end)
+	
+	TallHatchery:SetOnTryStartFn(function(inst, success, hardfailure)
+		if not success and hardfailure then
+			inst.readytolay = nil
+		end
+	end)
+end
 
 
 --------------------------------------------------------------------------------
@@ -171,9 +191,10 @@ local function fn(Sim)
 	inst.components.childspawner:StartSpawning()
 	-------------------
 	
+	-------------------
 	inst:AddComponent("tallhatchery")
-	inst.components.tallhatchery:SetFullDelay( TheMod:GetConfig("TALLBIRD_LAYING_DELAY") )
-   
+	-------------------  
+	
 	inst:AddComponent("inspectable")
 	inst.OnSave = OnSave
 	inst.OnLoad = OnLoad
