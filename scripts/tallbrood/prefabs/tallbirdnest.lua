@@ -23,7 +23,7 @@ do
 	local function ForceLay(inst)
 		local max_dist = TheMod:GetConfig("TALLBIRD_LAYING_MAX_DISTANCE")
 		local function close_enough(v)
-			return distsq(inst:GetPosition(), v:GetPosition()) < max_dist*max_dist
+			return distsq(inst:GetPosition(), v:GetPosition()) <= max_dist*max_dist
 		end
 	
 		if inst.components.childspawner and inst.components.pickable then
@@ -47,14 +47,13 @@ do
 		local function troublesome_children(e)
 			return e:IsValid() and e.prefab and troublesome_children_set[e.prefab]
 		end
+		local function busy_with_children(e)
+			return e:IsValid() and e.components.leader and Logic.ThereExists(troublesome_children, table.keys(e.components.leader.followers))
+		end
 
 		-- The second return value indicates a hard failure.
 		TallHatchery:SetConditionFn(function(inst)
 			if inst.components.pickable and not inst.components.pickable:CanBePicked() then
-				local function busy_with_children(v)
-					return v:IsValid() and v.components.leader and Logic.ThereExists(troublesome_children, table.keys(v.components.leader.followers))
-				end
-		
 				if Logic.ThereExists(busy_with_children, pairs(inst.components.childspawner.childrenoutside)) then
 					return false, true
 				end
