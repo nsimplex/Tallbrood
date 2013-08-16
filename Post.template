@@ -3,34 +3,34 @@ Tallbrood adds a lifecycle to Tallbirds. Nestless Tallbirds create new nests and
 Tallbrood is free software, licensed under the terms of the GNU GPLv2. The code is hosted at [URL="https://github.com/nsimplex/Tallbrood"]GitHub[/URL].
 
 [B]Description[/B]:
-[SPOILER]
+[spoiler]
 [LIST]
 [*] Tallbirds without a nest will make a new one after one week. Nests will only be made on rocky or dirt (turfless) ground.
 [*] A Tallbird will hatch the egg in its nest, which will grow into a Smallbird in 6 days. The hatched Smallbird will follow its parent throughout its growth into a Teenbird and finally into a Tallbird, which will then proceed to make its own nest.
 [*] While raising a Smallbird, a Tallbird won't lay eggs.
 [/LIST]
-[/SPOILER]
+[/spoiler]
 
 
 [B]Installation[/B]:
-[SPOILER]
+[spoiler]
 Unzip the Tallbrood folder into your mods directory. Then, enable it through the mod management interface found within the game's main menu.
-[/SPOILER]
+[/spoiler]
 
 [B]Configuration[/B]:
-[SPOILER]
+[spoiler]
 Just edit the file rc.lua in the Tallbrood folder. Every option's effect is explained in the file. Knowledge of Lua is not required, as the file uses a simple "OPTION = VALUE" format.
 
 @SAMPLECONFIGURATION@
-[/SPOILER]
+[/spoiler]
 
 [B]Known bugs[/B]:
-[SPOILER]
+[spoiler]
 None.
-[/SPOILER]
+[/spoiler]
 
 [B]Disclaimer[/B]:
-[SPOILER]
+[spoiler]
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
 as published by the Free Software Foundation; either version 2
@@ -40,10 +40,10 @@ This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
-[/SPOILER]
+[/spoiler]
 
 [B]Changelog[/B]:
-[SPOILER]
+[spoiler]
 [U]Version 2.1[/U] (2013-08-10)
 [LIST]
 [*] Tallbirds (by default) won't lay eggs while raising a Smallbird.
@@ -64,5 +64,5 @@ GNU General Public License for more details.
 [LIST]
 [*] Release.
 [/LIST]
-[/SPOILER]
+[/spoiler]
 
