@@ -1,7 +1,7 @@
 -----
 --[[ Tallbrood ]] VERSION="2.1"
 --
--- Last updated: 2013-08-11
+-- Last updated: 2013-08-22
 -----
 
 --[[
