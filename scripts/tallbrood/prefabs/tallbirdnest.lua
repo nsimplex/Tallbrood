@@ -152,7 +152,9 @@ local function OnSave(inst, data)
 end
 
 local function OnLoad(inst, data)
-	inst.readytolay = data.readytolay
+	if data then
+		inst.readytolay = data.readytolay
+	end
 	TallHatchery.TryStarter(inst)
 end
 

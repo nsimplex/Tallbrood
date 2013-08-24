@@ -312,7 +312,9 @@ function Nester:OnSave()
 end
 
 function Nester:OnLoad(data)
-	self.dont_spawn = data.dont_spawn
+	if data then
+		self.dont_spawn = data.dont_spawn
+	end
 	
 	ProtoNester.OnLoad(self, data)
 end
