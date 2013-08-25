@@ -1,6 +1,6 @@
 PROJECT:=Tallbrood
 AUTHOR:=simplex
-VERSION:=2.1
+VERSION:=2.1.1
 API_VERSION:=3
 DESCRIPTION:=A life cycle for Tallbirds.
 FORUM_THREAD:=23974
