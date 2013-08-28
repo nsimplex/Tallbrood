@@ -56,8 +56,8 @@ AddPrefabPostInit({'smallbird', 'teenbird', 'tallbird', 'tallbirdnest'}, inst_ta
 
 
 local function greeter(inst)
-	print('Thank you, ' .. (STRINGS.NAMES[inst.prefab:upper()] or "player") .. ', for using ' .. Modname .. ' mod v' .. modinfo.version .. '.')
-	print(Modname .. ' is free software, licensed under the terms of the GNU GPLv2.')
+	TheMod:Say('Thank you, ' .. (STRINGS.NAMES[inst.prefab:upper()] or "player") .. ', for using ' .. Modname .. ' mod v' .. modinfo.version .. '.')
+	TheMod:Say(Modname .. ' is free software, licensed under the terms of the GNU GPLv2.')
 end
 
 TheMod:AddSimPostInit(greeter)
