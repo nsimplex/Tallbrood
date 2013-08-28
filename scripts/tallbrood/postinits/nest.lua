@@ -19,8 +19,9 @@ Don't Starve and is not covered under the terms of this license.
 ]]--
 
 --@@ENVIRONMENT BOOTUP
-local modname = assert( (assert(..., 'This file should be loaded through require.')):match('^[%a_][%w_%s]*') , 'Invalid path.' )
-module( ..., require(modname .. '.booter') )
+local _modname = assert( (assert(..., 'This file should be loaded through require.')):match('^[%a_][%w_%s]*') , 'Invalid path.' )
+module( ..., require(_modname .. '.booter') )
+
 --@@END ENVIRONMENT BOOTUP
 
 -- This just enables syntax conveniences.
@@ -63,7 +64,7 @@ local function tallbirdnest_postinit(inst)
 	if spwner then
 		local oldonspawned = spwner.onspawned
 		spwner:SetSpawnedFn(function(inst, child)
-			inst:PushEvent(modname .. "_onspawn", {child = child})
+			inst:PushEvent(_modname .. "_onspawn", {child = child})
 			if oldonspawned then
 				oldonspawned(inst, child)
 			end

@@ -24,8 +24,9 @@ local GetGroundTypeAtPosition = GetGroundTypeAtPosition
 
 
 --@@ENVIRONMENT BOOTUP
-local modname = assert( (assert(..., 'This file should be loaded through require.')):match('^[%a_][%w_%s]*') , 'Invalid path.' )
-module( ..., require(modname .. '.booter') )
+local _modname = assert( (assert(..., 'This file should be loaded through require.')):match('^[%a_][%w_%s]*') , 'Invalid path.' )
+module( ..., require(_modname .. '.booter') )
+
 --@@END ENVIRONMENT BOOTUP
 
 
@@ -52,7 +53,7 @@ function CanSpawnTallbirdNestAtPoint(pt)
 		return false
 	end
 
-	return SearchSpace.FindSomeEntity(pt, TheMod:GetConfig().TALLBIRD_MIN_NEST_DISTANCE, nil, {modname .. '_tallbirdnest'}) and false or true
+	return SearchSpace.FindSomeEntity(pt, TheMod:GetConfig().TALLBIRD_MIN_NEST_DISTANCE, nil, {_modname .. '_tallbirdnest'}) and false or true
 end
 
 -- Finds the "best" nest to attach a Smallbird or Teenbird to.
@@ -60,7 +61,7 @@ function FindBestNest(bird, radius)
 	radius = radius or 2^9
 
 	local prefabname = 'tallbirdnest'
-	local basic_tag = modname .. '_' .. prefabname
+	local basic_tag = _modname .. '_' .. prefabname
 	local tags = {basic_tag}
 
 
@@ -126,7 +127,7 @@ function AttachBirdToNest(bird, nest)
 	assert( Pred.IsTable( nest.components.childspawner.childrenoutside ) )
 
 	-- Custom event. Pushed through postinit imbued logic.
-	bird:ListenForEvent(modname .. "_onspawn", function(nest, data)
+	bird:ListenForEvent(_modname .. "_onspawn", function(nest, data)
 		if
 			data.child
 			and bird.components.follower and not bird.components.follower.leader
